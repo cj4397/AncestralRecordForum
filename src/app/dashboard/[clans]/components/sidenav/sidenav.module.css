@@ -1,0 +1,54 @@
+.li {
+    float: left;
+    width: 100%;
+}
+
+.li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: .5rem 10px;
+
+    text-decoration: none;
+}
+
+.li a:hover {
+    color: #b38a32;
+    /* background-color: #111; */
+}
+
+.li a:after,
+.li a:before {
+    content: "";
+    position: absolute;
+    width: 0%;
+    display: block;
+    height: 1px;
+    transition: all 1s ease;
+    margin-top: 2px;
+    transition: all 300ms ease-in;
+}
+
+.li a:after {
+    bottom: 25%;
+    left: 0;
+}
+
+.li a:before {
+    top: 25%;
+    right: 0;
+}
+
+.li a:hover::after {
+    width: 100%;
+    height: 1px;
+    bottom: 25%;
+    background-color: #b38a32;
+}
+
+.li a:hover::before {
+    width: 100%;
+    height: 1px;
+    top: 25%;
+    background-color: #b38a32;
+}

@@ -1,0 +1,75 @@
+.main {
+    transition: margin-left 5s;
+    margin-left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.clan {
+    height: 100%;
+    width: 100%;
+}
+
+.sidenav {
+    transition: width 2s;
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    overflow-x: hidden;
+    transition: 0.5s;
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+.sidenav_button {
+    transition: margin-left .5s;
+    text-align: center;
+    width: 0rem;
+    background-color: transparent;
+    position: absolute;
+    z-index: 9 !important;
+    height: 100%;
+}
+
+.button {
+    padding: 20px 10px 20px 0;
+    border-radius: 0 50% 50% 0%;
+    background-color: #333;
+    color: #b38a32;
+    position: fixed;
+    top: 32vh;
+    width: 1.5rem;
+    height: 200px;
+}
+
+.button>span {
+    writing-mode: vertical-lr;
+}
+
+.sidenav_button>a {
+
+    padding: 20px 10px 20px 0;
+    border-radius: 0 50% 50% 0%;
+    writing-mode: vertical-lr;
+    background-color: #333;
+    color: #b38a32;
+    /* margin-top: 32vh; */
+    position: absolute;
+    z-index: 99999 !important;
+    /* width: 1.5rem; */
+    height: 200px;
+}
+
+.pushed {
+    width: 250px;
+}
+
+.moved {
+    margin-left: 250px;
+}
