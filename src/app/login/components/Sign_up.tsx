@@ -30,7 +30,7 @@ export default function Sign_up() {
                 result.token,
                 result.admin
             )
-            route.push('/admin')
+            route.push('/dashboard')
         } else if (result.token) {
             get_info(
                 result.user,

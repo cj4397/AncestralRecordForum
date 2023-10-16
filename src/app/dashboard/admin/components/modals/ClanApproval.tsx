@@ -1,15 +1,20 @@
 import React from 'react'
 import AdminAPI from '../AdminAPI'
+import { useRouter } from 'next/navigation'
 
 export default function ClanApproval(props: any) {
     const { modal_open, setModal, clan } = props
     const { clan_creation } = AdminAPI()
+    const router = useRouter()
 
     const create_clan = () => {
         async function send_data() {
             const result = await clan_creation(clan.id)
             if (result.message) {
                 alert(result.message)
+                router.push(window.location.href);
+                router.refresh()
+
                 setModal(false)
             } else {
                 alert(result.error)

@@ -1,7 +1,24 @@
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import ClanAPI from './ClanAPI'
 
-export default function ClanDetails() {
+export default function ClanDetails(props: any) {
+    const { clan_name } = props
+    const { get_clan_details } = ClanAPI()
+    const [clan_details, setClanDetails]: any = useState({})
+
+
+
+    useEffect(() => {
+        async function get_data() {
+            const result = await get_clan_details(clan_name)
+            if (result.details) {
+                setClanDetails(result.details)
+            }
+        }
+        get_data()
+    }, [])
+
     return (
         <div className="card">
             <div className="card-image">
@@ -13,16 +30,14 @@ export default function ClanDetails() {
                 <div className="media">
 
                     <div className="media-content has-text-centered">
-                        <p className="title is-4">Clan Summary</p>
+                        <p className="title is-4">{clan_details.name}</p>
                     </div>
                 </div>
 
                 <div className="content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                    <a href="#">#css</a> <a href="#">#responsive</a>
+                    {clan_details.details}
                     <br />
-                    <time >11:09 PM - 1 Jan 2016</time>
+                    <time >{clan_details.created_at}</time>
                 </div>
             </div>
         </div>

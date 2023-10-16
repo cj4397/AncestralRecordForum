@@ -147,16 +147,32 @@ export default function ClanAPI() {
         return fetchApi(url, method, body);
     }
 
-    const register_person = async (clan: string, name: string, status: string, id?: number) => {
+    const register_person = async (clan: string, name: string, status: string, parent?: number, id?: number) => {
         const url = `${process.env.NEXT_PUBLIC_DB_REGISTER_PERSON}`;
         const method = "POST";
-        const body = {
-            token: token,
-            clan: clan,
-            name: name,
-            status: status,
-            family_id: id
-        };
+        let body = {}
+        if (id && parent) {
+            body = {
+                token: token,
+                clan: clan,
+                name: name,
+                status: status,
+
+                parent_id: parent,
+                family_id: id
+            }
+        } else {
+            body = {
+                token: token,
+                clan: clan,
+                name: name,
+                status: status,
+
+
+            }
+        }
+
+
         return fetchApi(url, method, body);
     }
 
@@ -174,8 +190,44 @@ export default function ClanAPI() {
         return fetchApi(url, method, body);
     }
 
+    const record_family_story = async (clan: string, title: string, details: string, id: number) => {
+        const url = `${process.env.NEXT_PUBLIC_DB_RECORD_FAMILY_STORY}`;
+        const method = "POST";
+        const body = {
+            token: token,
+            clan: clan,
+            title: title,
+            details: details,
+            family_id: id
+        };
+        return fetchApi(url, method, body);
+    }
+
+    const get_ancestral_tree = async (clan: string) => {
+        const url = `${process.env.NEXT_PUBLIC_DB_ANCESTRAL_TREE}`;
+        const method = "POST";
+        const body = {
+            token: token,
+            clan: clan
+        };
+        return fetchApi(url, method, body);
+    }
+
+    const get_clan_details = async (clan: string) => {
+        const url = `${process.env.NEXT_PUBLIC_DB_GET_CLAN_DETAILS}`;
+        const method = "POST";
+        const body = {
+            token: token,
+            clan: clan
+        };
+        return fetchApi(url, method, body);
+    }
+
 
     return {
+        get_clan_details,
+        record_family_story,
+        get_ancestral_tree,
         register_partner,
         get_parent,
         register_person,

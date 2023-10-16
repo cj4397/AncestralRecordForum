@@ -42,7 +42,7 @@ export default function ClanCrationRequest(props: any) {
 
 
                         <div className="field">
-                            <label htmlFor="clan_name" className="label">Branch Clan Name</label>
+                            <label htmlFor="clan_name" className="label">Clan Name</label>
                             <div className="control">
                                 <input id='clan_name' name='clan_name' className="input" type="text" placeholder="Input Branch Clan name to be used" required />
                             </div>

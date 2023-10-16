@@ -6,8 +6,8 @@ export default function Page({ params }: any) {
 
     return (
         <div className='vw-100'>
-            <h1 className='title has-text-centered'>{params.clans} Clan</h1>
-            <ClanDetails />
+
+            <ClanDetails clan_name={params.clans} />
 
         </div>
     )

@@ -1,29 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import ClanAPI from '../ClanAPI'
 
-export default function RegisterPerson(props: any) {
-    const { modal, setModal, clan_name, data } = props
-    const { register_person, get_parent } = ClanAPI()
+export default function RegisterAncestor(props: any) {
+    const { modal, setModal, clan_name } = props
+    const { register_person } = ClanAPI()
 
 
-
-    // useEffect(() => {
-    //     async function get_data() {
-    //         const result = await get_parent(clan_name)
-    //         if (result.family && result.family.length > 0) {
-    //             setParent(result.family)
-    //         }
-    //     }
-    //     get_data()
-    // }, [])
 
     const handle_submit = (e: any) => {
         // e.preventDefault();
 
         async function send_data() {
+            let child = false
 
 
-            const result = await register_person(clan_name, e.target.name.value, e.target.status.value, e.target.parent.value, data.id)
+            const result = await register_person(clan_name, e.target.name.value, e.target.status.value)
             if (result.message) {
                 alert(result.message)
                 setModal(false)
@@ -39,7 +30,7 @@ export default function RegisterPerson(props: any) {
             <div className="modal-background"></div>
             <div className="modal-card ">
                 <header className="modal-card-head">
-                    <p className="modal-card-title">Register a Person</p>
+                    <p className="modal-card-title">Register an Ancestor</p>
                     <button onClick={() => setModal(false)} className="delete"></button>
                 </header>
 
@@ -67,21 +58,6 @@ export default function RegisterPerson(props: any) {
                             </div>
                         </div>
 
-                        <div className="field">
-                            <label className="label">Parent</label>
-                            <div className="control">
-                                <div className="select">
-                                    <select name='parent' required>
-                                        {data.partner.map((e: any) => (
-                                            <>
-                                                <option value={e.id}><p key={e.id}>{e.partner}</p></option>
-                                            </>
-                                        ))}
-
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
 
 
 
@@ -92,11 +68,11 @@ export default function RegisterPerson(props: any) {
                     </form>
 
 
-                </section >
+                </section>
 
 
 
-            </div >
-        </div >
+            </div>
+        </div>
     )
 }
