@@ -21,7 +21,7 @@ export default function Page({ params }: any) {
         get_data()
     }, [])
     return (
-        <div>P {params.clans}
+        <div>
             <ClanJoinRequest request={request} clan_name={params.clans} />
         </div>
     )
