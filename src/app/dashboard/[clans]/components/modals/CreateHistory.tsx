@@ -2,20 +2,20 @@ import React from 'react'
 import ClanAPI from '../ClanAPI';
 
 export default function CreateHistory(props: any) {
-    const { modal_open, setModal, clan_name } = props
+    const { modal_open, setModal, clan_name, refresh, setRefresh } = props
     const { record_history } = ClanAPI()
 
 
     console.log(clan_name)
     const handle_submit = (e: any) => {
-        // e.preventDefault();
+        e.preventDefault();
 
         async function send_data() {
 
 
             const result = await record_history(clan_name, e.target.title.value, e.target.details.value)
             if (result.message) {
-                alert(result.message)
+                setRefresh(refresh ? false : true)
                 setModal(false)
             } else {
                 alert(result.error)

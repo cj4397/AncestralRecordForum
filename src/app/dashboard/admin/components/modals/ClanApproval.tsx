@@ -22,6 +22,7 @@ export default function ClanApproval(props: any) {
             }
         }
         send_data()
+        window.location.reload();
     }
     return (
         <div className={`${modal_open ? 'is-active' : ''} modal`}>

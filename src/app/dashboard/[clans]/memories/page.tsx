@@ -5,20 +5,22 @@ import ClanMemory from '../components/tables/ClanMemory'
 import CreateMemory from '../components/modals/CreateMemory'
 
 export default function Page({ params }: any) {
+    const clan_name = params.clans.split('%20').join(' ')
     const [history, setHistory] = useState([])
     const { get_memory } = ClanAPI()
     const [modal, setModal] = useState(false)
+    const [refresh, setRefresh] = useState(false)
 
     useEffect(() => {
         async function get_data() {
-            const result = await get_memory(params.clans)
+            const result = await get_memory(clan_name)
             console.log(result)
             if (result.memory) {
                 setHistory(result.memory)
             }
         }
         get_data()
-    }, [])
+    }, [refresh])
     return (
         <div>
 
@@ -40,8 +42,8 @@ export default function Page({ params }: any) {
                 </div>
             </div>
 
-            {modal && <CreateMemory setModal={setModal} modal_open={modal} clan_name={params.clans} />}
-            <ClanMemory history={history} clan_name={params.clans} />
+            {modal && <CreateMemory setModal={setModal} modal_open={modal} clan_name={clan_name} refresh={refresh} setRefresh={setRefresh} />}
+            <ClanMemory history={history} clan_name={clan_name} refresh={refresh} setRefresh={setRefresh} />
         </div>
     )
 }

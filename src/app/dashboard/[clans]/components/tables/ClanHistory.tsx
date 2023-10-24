@@ -1,15 +1,18 @@
 'use client'
 import React, { useState } from 'react'
 import EditHistory from '../modals/EditHistory'
+import ClanHistoryChoose from '../modals/ClanHistoryChoose'
+import DeleteHistory from '../modals/DeleteHistory'
 
 export default function ClanHistory(props: any) {
-    const { history, clan_name } = props
+    const { history, clan_name, refresh, setRefresh } = props
 
     const clan_list = history
     const [current_page, setCurrentPage] = useState(1)
     const [modal_open, setModal] = useState(false)
     const [clan, setClan] = useState({})
-
+    const [edit_modal_open, setEditModal] = useState(false)
+    const [delete_modal_open, setDeleteModal] = useState(false)
 
     const per_page = 10
     const total_pages = Math.ceil(clan_list.length / per_page);
@@ -92,7 +95,9 @@ export default function ClanHistory(props: any) {
                 </ul>
             </nav>
 
-            {modal_open && <EditHistory setModal={setModal} modal_open={modal_open} clan_name={clan_name} history={clan} />}
+            {edit_modal_open && <EditHistory setModal={setEditModal} modal_open={edit_modal_open} clan_name={clan_name} history={clan} category={'clan'} refresh={refresh} setRefresh={setRefresh} />}
+            {delete_modal_open && <DeleteHistory setModal={setDeleteModal} modal_open={delete_modal_open} clan_name={clan_name} history={clan} category={'clan'} refresh={refresh} setRefresh={setRefresh} />}
+            {modal_open && <ClanHistoryChoose setModal={setModal} modal_open={modal_open} clan_name={clan_name} history={clan} setEditModal={setEditModal} setDeleteModal={setDeleteModal} />}
         </div>
     )
 }

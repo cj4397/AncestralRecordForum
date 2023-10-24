@@ -5,20 +5,23 @@ import ClanAPI from '../components/ClanAPI'
 import CreateHistory from '../components/modals/CreateHistory'
 
 export default function Page({ params }: any) {
+    const clan_name = params.clans.split('%20').join(' ')
     const [history, setHistory] = useState([])
     const { get_history } = ClanAPI()
     const [modal, setModal] = useState(false)
 
+    const [refresh, setRefresh] = useState(false)
+
     useEffect(() => {
         async function get_data() {
-            const result = await get_history(params.clans)
+            const result = await get_history(clan_name)
             console.log(result)
             if (result.history) {
                 setHistory(result.history)
             }
         }
         get_data()
-    }, [])
+    }, [refresh])
     return (
         <div>
 
@@ -40,8 +43,8 @@ export default function Page({ params }: any) {
                 </div>
             </div>
 
-            {modal && <CreateHistory setModal={setModal} modal_open={modal} clan_name={params.clans} />}
-            <ClanHistory history={history} clan_name={params.clans} />
+            {modal && <CreateHistory setModal={setModal} modal_open={modal} clan_name={clan_name} refresh={refresh} setRefresh={setRefresh} />}
+            <ClanHistory history={history} clan_name={clan_name} refresh={refresh} setRefresh={setRefresh} />
         </div>
     )
 }

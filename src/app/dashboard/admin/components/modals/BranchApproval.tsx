@@ -18,6 +18,7 @@ export default function BranchApproval(props: any) {
             }
         }
         send_data()
+        window.location.reload();
     }
 
     return (

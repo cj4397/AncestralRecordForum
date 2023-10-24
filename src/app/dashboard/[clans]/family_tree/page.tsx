@@ -5,18 +5,23 @@ import RegisterAncestor from '../components/modals/RegisterAncestor'
 import ClanAPI from '../components/ClanAPI'
 
 
+
 export default function Tree({ params }: any) {
+    const clan_name = params.clans.split('%20').join(' ')
     const [modal, setModal] = useState(false)
     const { get_ancestral_tree } = ClanAPI()
     const [tree, setTree]: any = useState()
     const [show_tree, setShow] = useState(false)
+    const [refresh, setRefresh] = useState(false)
+
+
 
     useEffect(() => {
         async function get_data() {
-            const result = await get_ancestral_tree(params.clans)
+            const result = await get_ancestral_tree(clan_name)
             if (result.family) {
                 setTree(result.family)
-                console.log(result.family)
+
                 if (result.family.length > 0) {
                     setShow(true)
                 }
@@ -27,8 +32,9 @@ export default function Tree({ params }: any) {
 
         }
         get_data()
+
         console.log(tree)
-    }, [])
+    }, [refresh])
 
     return (
         <div className='h-100'>
@@ -40,11 +46,11 @@ export default function Tree({ params }: any) {
 
 
                 </div>
-                {modal && <RegisterAncestor setModal={setModal} modal={modal} clan_name={params.clans} />}
+                {modal && <RegisterAncestor setModal={setModal} modal={modal} clan_name={clan_name} refresh={refresh} setRefresh={setRefresh} />}
 
 
             </div>
-            {show_tree && <FamilyTree data={tree} width={1280} clan_name={params.clans} />}
+            {show_tree && <FamilyTree data={tree} width={1280} clan_name={clan_name} refresh={refresh} setRefresh={setRefresh} />}
 
         </div>
     )

@@ -5,12 +5,12 @@ import ClanAPI from '../components/ClanAPI'
 
 
 export default function Page({ params }: any) {
-
+    const clan_name = params.clans.split('%20').join(' ')
     const [request, setRequest] = useState([])
     const { clan_join_request } = ClanAPI()
     useEffect(() => {
         async function get_data() {
-            const result = await clan_join_request(params.clans)
+            const result = await clan_join_request(clan_name)
             if (result.request) {
                 setRequest(result.request)
             } else {
@@ -22,7 +22,7 @@ export default function Page({ params }: any) {
     }, [])
     return (
         <div>
-            <ClanJoinRequest request={request} clan_name={params.clans} />
+            <ClanJoinRequest request={request} clan_name={clan_name} />
         </div>
     )
 }

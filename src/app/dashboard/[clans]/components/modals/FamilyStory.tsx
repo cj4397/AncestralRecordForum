@@ -2,19 +2,20 @@ import React from 'react'
 import ClanAPI from '../ClanAPI'
 
 export default function FamilyStory(props: any) {
-    const { modal, setModal, clan_name, data } = props
+    const { modal, setModal, clan_name, data, refresh, setRefresh } = props
     const { record_family_story } = ClanAPI()
 
 
 
     const handle_submit = (e: any) => {
-        // e.preventDefault();
+        e.preventDefault();
 
         async function send_data() {
 
             const result = await record_family_story(clan_name, e.target.title.value, e.target.details.value, data.id)
             if (result.message) {
                 alert(result.message)
+                setRefresh(refresh ? false : true)
                 setModal(false)
             } else {
                 alert(result.error)

@@ -2,23 +2,12 @@ import React, { useEffect, useState } from 'react'
 import ClanAPI from '../ClanAPI'
 
 export default function RegisterPerson(props: any) {
-    const { modal, setModal, clan_name, data } = props
-    const { register_person, get_parent } = ClanAPI()
+    const { modal, setModal, clan_name, data, refresh, setRefresh } = props
+    const { register_person } = ClanAPI()
 
-
-
-    // useEffect(() => {
-    //     async function get_data() {
-    //         const result = await get_parent(clan_name)
-    //         if (result.family && result.family.length > 0) {
-    //             setParent(result.family)
-    //         }
-    //     }
-    //     get_data()
-    // }, [])
 
     const handle_submit = (e: any) => {
-        // e.preventDefault();
+        e.preventDefault();
 
         async function send_data() {
 
@@ -26,6 +15,7 @@ export default function RegisterPerson(props: any) {
             const result = await register_person(clan_name, e.target.name.value, e.target.status.value, e.target.parent.value, data.id)
             if (result.message) {
                 alert(result.message)
+                setRefresh(refresh ? false : true)
                 setModal(false)
             } else {
                 alert(result.error)
@@ -73,9 +63,9 @@ export default function RegisterPerson(props: any) {
                                 <div className="select">
                                     <select name='parent' required>
                                         {data.partner.map((e: any) => (
-                                            <>
-                                                <option value={e.id}><p key={e.id}>{e.partner}</p></option>
-                                            </>
+
+                                            <option key={e.id} value={e.id}>{e.partner}</option>
+
                                         ))}
 
                                     </select>

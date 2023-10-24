@@ -2,12 +2,12 @@ import React from 'react'
 import ClanAPI from '../ClanAPI'
 
 export default function RegisterPartner(props: any) {
-    const { modal, setModal, clan_name, data } = props
+    const { modal, setModal, clan_name, data, refresh, setRefresh } = props
     const { register_partner } = ClanAPI()
 
 
     const handle_submit = (e: any) => {
-        // e.preventDefault();
+        e.preventDefault();
 
         let child = false
         if (e.target.child.value === 'true') {
@@ -20,6 +20,7 @@ export default function RegisterPartner(props: any) {
             const result = await register_partner(clan_name, e.target.name.value, e.target.status.value, child, data.person.id)
             if (result.message) {
                 alert(result.message)
+                setRefresh(refresh ? false : true)
                 setModal(false)
             } else {
                 alert(result.error)
