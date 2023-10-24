@@ -8,12 +8,13 @@ import Confirm from '../components/modals/Confirm'
 import EditEditPerson from '../components/modals/EditEditPerson'
 
 import EditClanDetails from '../components/modals/EditClanDetails'
+import { off } from 'process'
 
 
 
 export default function Page({ params }: any) {
     const clan_name = params.clans.split('%20').join(' ')
-    const { get_edits, post_comment, accept_clan_history_edit, accept_memory_history_edit, accept_family_history_edit, clan_details_comment, family_comment, partner_comment, delete_family_comment, delete_partner_comment, delete_clan_history_comment, delete_family_history_comment, delete_memory_comment, accept_family_edit, accept_family_delete, accept_partner_edit, accept_clan_details_edit, accept_partner_delete, accept_family_history_delete, accept_clan_history_delete, accept_memory_delete } = ClanAPI()
+    const { get_edits, post_comment, accept_clan_history_edit, accept_memory_history_edit, accept_family_history_edit, clan_details_comment, family_comment, partner_comment, delete_family_comment, delete_partner_comment, delete_clan_history_comment, delete_family_history_comment, delete_memory_comment, accept_family_edit, accept_family_delete, accept_partner_edit, accept_clan_details_edit, accept_partner_delete, accept_family_history_delete, accept_clan_history_delete, accept_memory_delete, officer_check } = ClanAPI()
     const [clan_history, setClanHistory] = useState([])
     const [family_history, setFamilyHistory] = useState([])
     const [memory, setmemory] = useState([])
@@ -40,6 +41,7 @@ export default function Page({ params }: any) {
 
     const [person_modal, setPersonModal] = useState(false)
     const [clan_details_modal, setClanDetailsModal] = useState(false)
+    const [officer, setOfficer] = useState(false)
 
     useEffect(() => {
         async function get_data() {
@@ -59,7 +61,13 @@ export default function Page({ params }: any) {
                 setPartnerDelete(result.partner_delete)
             }
         }
-
+        async function check() {
+            const result = await officer_check(clan_name)
+            if (result.officer) {
+                setOfficer(true)
+            }
+        }
+        check()
         get_data()
     }, [reload])
 
@@ -533,11 +541,12 @@ export default function Page({ params }: any) {
                                         </div>
                                     </article>
                                 </div>
-                                <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
+                                {officer && <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
                                     <button onClick={() => clan_history_accept(e.id)} className="button is-success">Accept</button>
                                     <button onClick={() => clan_edit(e)} className="button is-info">Edit</button>
                                     <button onClick={() => clan_cancel(e)} className="button ">Cancel Edit</button>
-                                </footer>
+                                </footer>}
+
                             </div>))}
 
 
@@ -632,11 +641,12 @@ export default function Page({ params }: any) {
                                         </div>
                                     </article>
                                 </div>
-                                <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
+                                {officer && <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
                                     <button onClick={() => memory_history_accept(e.id)} className="button is-success">Accept</button>
                                     <button onClick={() => memory_edit(e)} className="button is-info">Edit</button>
                                     <button onClick={() => memory_cancel(e)} className="button ">Cancel Edit</button>
-                                </footer>
+                                </footer>}
+
                             </div>))}
 
 
@@ -750,11 +760,12 @@ export default function Page({ params }: any) {
                                                     </div>
                                                 </article>
                                             </div>
-                                            <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
+                                            {officer && <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
                                                 <button onClick={() => family_accept(e.id)} className="button is-success">Accept</button>
                                                 <button onClick={() => family_edit(e)} className="button is-info">Edit</button>
                                                 <button onClick={() => family_cancel(e)} className="button ">Cancel Edit</button>
-                                            </footer>
+                                            </footer>}
+
                                         </div>
                                     ))}
                                 </div>
@@ -861,11 +872,12 @@ export default function Page({ params }: any) {
                                                     </div>
                                                 </article>
                                             </div>
-                                            <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
+                                            {officer && <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
                                                 <button onClick={() => partner_accept(e.id)} className="button is-success">Accept</button>
                                                 <button onClick={() => partner_edit(e)} className="button is-info">Edit</button>
                                                 <button onClick={() => partner_cancel(e)} className="button ">Cancel Edit</button>
-                                            </footer>
+                                            </footer>}
+
                                         </div>
                                     ))}
                                 </div>
@@ -954,11 +966,12 @@ export default function Page({ params }: any) {
                                                 </div>
                                             </article>
                                         </div>
-                                        <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
+                                        {officer && <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
                                             <button onClick={() => family_history_accept(e.id)} className="button is-success">Accept</button>
                                             <button onClick={() => family_history_edit(e)} className="button is-info">Edit</button>
                                             <button onClick={() => family_history_cancel(e)} className="button ">Cancel Edit</button>
-                                        </footer>
+                                        </footer>}
+
                                     </div>))}
                             </div>))}
                         </ul>
@@ -1069,11 +1082,12 @@ export default function Page({ params }: any) {
                                             </div>
                                         </article>
                                     </div>
-                                    <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
+                                    {officer && <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
                                         <button onClick={() => clan_details_accept(e.id)} className="button is-success">Accept</button>
                                         <button onClick={() => clan_details_edit(e)} className="button is-info">Edit</button>
                                         <button onClick={() => clan_details_cancel(e)} className="button ">Cancel Edit</button>
-                                    </footer>
+                                    </footer>}
+
                                 </div>
                             ))}
                         </div>
@@ -1164,11 +1178,12 @@ export default function Page({ params }: any) {
                                         </div>
                                     </article>
                                 </div>
-                                <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
+                                {officer && <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
                                     <button onClick={() => clan_history_delete_accept(e.id)} className="button is-success">Accept</button>
 
                                     <button onClick={() => clan_history_delete_cancel(e)} className="button ">Cancel Edit</button>
-                                </footer>
+                                </footer>}
+
                             </div>))}
 
 
@@ -1253,11 +1268,12 @@ export default function Page({ params }: any) {
                                         </div>
                                     </article>
                                 </div>
-                                <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
+                                {officer && <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
                                     <button onClick={() => memory_delete_accept(e.id)} className="button is-success">Accept</button>
 
                                     <button onClick={() => memory_delete_cancel(e)} className="button ">Cancel Edit</button>
-                                </footer>
+                                </footer>}
+
                             </div>))}
 
 
@@ -1352,11 +1368,12 @@ export default function Page({ params }: any) {
                                                 </div>
                                             </article>
                                         </div>
-                                        <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
+                                        {officer && <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
                                             <button onClick={() => family_delete_accept(e.id)} className="button is-success">Accept</button>
 
                                             <button onClick={() => family_delete_cancel(e)} className="button ">Cancel Edit</button>
-                                        </footer>
+                                        </footer>}
+
                                     </div>))}
 
 
@@ -1448,11 +1465,12 @@ export default function Page({ params }: any) {
                                                 </div>
                                             </article>
                                         </div>
-                                        <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
+                                        {officer && <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
                                             <button onClick={() => partner_delete_accept(e.id)} className="button is-success">Accept</button>
 
                                             <button onClick={() => partner_delete_cancel(e)} className="button ">Cancel Edit</button>
-                                        </footer>
+                                        </footer>}
+
                                     </div>))}
 
 
@@ -1538,11 +1556,12 @@ export default function Page({ params }: any) {
                                                 </div>
                                             </article>
                                         </div>
-                                        <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
+                                        {officer && <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
                                             <button onClick={() => family_history_delete_accept(e.id)} className="button is-success">Accept</button>
 
                                             <button onClick={() => family_history_delete_cancel(e)} className="button ">Cancel Edit</button>
-                                        </footer>
+                                        </footer>}
+
                                     </div>))}
 
 

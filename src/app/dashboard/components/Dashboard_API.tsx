@@ -87,8 +87,19 @@ export default function Dashboard_API() {
         return fetchApi(url, method, body);
     }
 
+    const get_user = async () => {
+        const url = `${process.env.NEXT_PUBLIC_DB_USER}`;
+        const method = "POST";
+        const body = {
+            token: token
+
+        };
+        return fetchApi(url, method, body);
+    }
+
 
     return {
+        get_user,
         branch_creation_request,
         clan_creation_request,
         admin_check,

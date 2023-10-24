@@ -1,7 +1,10 @@
 import React from 'react'
+import User from './components/User'
 
 export default function Page() {
     return (
-        <div>Home Page</div>
+        <div>
+            <User />
+        </div>
     )
 }

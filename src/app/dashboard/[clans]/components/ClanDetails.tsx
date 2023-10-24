@@ -9,6 +9,7 @@ export default function ClanDetails(props: any) {
     const { clan_name } = props
     const { get_clan_details } = ClanAPI()
     const [clan_details, setClanDetails]: any = useState({})
+    const [branch, setBranch] = useState([])
 
     const [modal, setModal] = useState(false)
     const [reload, setReload] = useState(false)
@@ -19,6 +20,7 @@ export default function ClanDetails(props: any) {
             const result = await get_clan_details(clan_name)
             if (result.details) {
                 setClanDetails(result.details)
+                setBranch(result.branch)
             }
         }
         get_data()
@@ -33,33 +35,67 @@ export default function ClanDetails(props: any) {
         <div className='box'>
             {(clan_details !== "Edit in Process") ?
                 <>
-                    <div className="card">
-                        <div className="card-image">
-                            <figure className="image is-4by3">
-                                <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" />
-                            </figure>
-                        </div>
-                        <div className="card-content">
-                            <div className="media">
+                    {clan_details && <>
+                        <div className="card">
+                            <div className="card-image">
+                                <figure className="image is-4by3">
+                                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" />
+                                </figure>
+                            </div>
+                            <div className="card-content">
+                                <div className="media">
 
-                                <div className="media-content has-text-centered">
-                                    <p className="title is-4">{clan_details.name}</p>
+                                    <div className="media-content has-text-centered">
+                                        <p className="title is-4">{clan_details.name}</p>
+                                    </div>
+                                </div>
+
+                                <div className="content">
+                                    {clan_details.details}
+                                    <br />
+                                    <time >{clan_details.created_at}</time>
                                 </div>
                             </div>
+                        </div>
+                        {modal && <EditClanDetails setModal={setModal} modal_open={modal} clan_name={clan_name} data={clan_details} refresh={reload} setRefresh={setReload} />}
+                        <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
 
-                            <div className="content">
-                                {clan_details.details}
-                                <br />
-                                <time >{clan_details.created_at}</time>
+                            <button onClick={() => clan_details_edit()} className="button is-info">Edit</button>
+
+                        </footer>
+
+                    </>}
+
+
+                    {(branch.length > 0) && <>
+                        <div className="card">
+                            <div className="card-image">
+                            </div>
+                            <div className="card-content">
+                                <div className="media content">
+                                    <h2>Branch</h2>
+                                </div>
+
+                                <div className="content">
+
+                                    {branch.map((e: any) => (
+                                        <div key={e.id}>
+                                            <div className="media-content has-text-centered">
+                                                <p className="title is-4">{e.clan_detail.name}</p>
+                                            </div>
+                                            {e.clan_detail.details}
+                                            <br />
+                                            <time >{e.clan_detail.created_at}</time>
+                                        </div>
+
+                                    ))}
+
+
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    {modal && <EditClanDetails setModal={setModal} modal_open={modal} clan_name={clan_name} data={clan_details} refresh={reload} setRefresh={setReload} />}
-                    <footer className="modal-card-foot has-background-white is-flex is-justify-content-flex-end">
-
-                        <button onClick={() => clan_details_edit()} className="button is-info">Edit</button>
-
-                    </footer>
+                    </>}
                 </> :
                 <>
                     <section className="hero is-info">
